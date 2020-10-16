@@ -1,5 +1,5 @@
 import { InvalidParamError, MissginParamError } from '../../errors'
-import { badRequest } from '../../helper/http-helper'
+import { badRequest, serverError } from '../../helper/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '../../protocols'
 import { EmailValidator } from '../signup/signup-protocols'
 
@@ -11,17 +11,21 @@ export class LoginController implements Controller {
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { email, password } = httpRequest.body
-    if (!email) {
-      return new Promise(resolve => resolve(badRequest(new MissginParamError('email'))))
-    }
-    if (!password) {
-      return new Promise(resolve => resolve(badRequest(new MissginParamError('password'))))
-    }
-    const isValid = this.emailValidator.isValid(email)
+    try {
+      const { email, password } = httpRequest.body
+      if (!email) {
+        return new Promise(resolve => resolve(badRequest(new MissginParamError('email'))))
+      }
+      if (!password) {
+        return new Promise(resolve => resolve(badRequest(new MissginParamError('password'))))
+      }
+      const isValid = this.emailValidator.isValid(email)
 
-    if (!isValid) {
-      return new Promise(resolve => resolve(badRequest(new InvalidParamError('email'))))
+      if (!isValid) {
+        return new Promise(resolve => resolve(badRequest(new InvalidParamError('email'))))
+      }
+    } catch (error) {
+      return serverError(error)
     }
   }
 }
