@@ -23,7 +23,7 @@ module.exports = {
   coverageDirectory: 'coverage',
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: 'v8',
+  coverageProvider: 'babel',
 
   // A map from regular expressions to paths to transformers
   transform: {
