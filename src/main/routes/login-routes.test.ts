@@ -38,9 +38,9 @@ describe('Login Routes', () => {
     test('Should return 200 on login', async () => {
       const password = await hash('123', 12)
       await accountColletction.insertOne({
+        name: 'Lucas Cotrim',
         email: 'lucascotrim3@hotmail.com',
         password: password
-
       })
 
       await request(app)
