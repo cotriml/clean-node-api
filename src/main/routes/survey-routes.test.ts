@@ -5,8 +5,8 @@ import { Collection } from 'mongodb'
 import { sign } from 'jsonwebtoken'
 import env from '../config/env'
 
-let surveyColletction: Collection
-let accountColletction: Collection
+let surveyCollection: Collection
+let accountCollection: Collection
 
 describe('Survey Routes', () => {
   beforeAll(async () => {
@@ -18,11 +18,11 @@ describe('Survey Routes', () => {
   })
 
   beforeEach(async () => {
-    surveyColletction = await MongoHelper.getCollection('surveys')
-    await surveyColletction.deleteMany({})
+    surveyCollection = await MongoHelper.getCollection('surveys')
+    await surveyCollection.deleteMany({})
 
-    accountColletction = await MongoHelper.getCollection('accounts')
-    await accountColletction.deleteMany({})
+    accountCollection = await MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe('POST /surveys', () => {
@@ -42,8 +42,8 @@ describe('Survey Routes', () => {
         .expect(403)
     })
 
-    test('Should return 204 on AddSurvey with valid token', async () => {
-      const res = await accountColletction.insertOne({
+    test('Should return 204 on AddSurvey with valid accessToken', async () => {
+      const res = await accountCollection.insertOne({
         name: 'Lucas Cotrim',
         email: 'lucascotrim3@hotmail.com',
         password: '123',
@@ -52,7 +52,7 @@ describe('Survey Routes', () => {
       const id = res.ops[0]._id
       const accessToken = sign({ id }, env.jwtSecret)
 
-      await accountColletction.updateOne({
+      await accountCollection.updateOne({
         _id: id
       }, {
         $set: {
@@ -67,7 +67,7 @@ describe('Survey Routes', () => {
           question: 'Question',
           answers: [{
             answer: 'Answer 1',
-            image: 'http://image-name.com '
+            image: 'http://image-name.com'
           },
           {
             answer: 'Answer 2'
@@ -82,6 +82,40 @@ describe('Survey Routes', () => {
       await request(app)
         .get('/api/surveys')
         .expect(403)
+    })
+
+    test('Should return 200 on LoadSurveys with valid accessToken', async () => {
+      const res = await accountCollection.insertOne({
+        name: 'Lucas Cotrim',
+        email: 'lucascotrim3@hotmail.com',
+        password: '123'
+      })
+      const id = res.ops[0]._id
+      const accessToken = sign({ id }, env.jwtSecret)
+
+      await accountCollection.updateOne({
+        _id: id
+      }, {
+        $set: {
+          accessToken
+        }
+      })
+
+      await surveyCollection.insertMany([{
+        question: 'Question',
+        answers: [{
+          answer: 'Answer 1',
+          image: 'http://image-name.com'
+        },
+        {
+          answer: 'Answer 2'
+        }]
+      }])
+
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .expect(200)
     })
   })
 })
