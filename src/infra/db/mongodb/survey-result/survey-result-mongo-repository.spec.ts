@@ -68,6 +68,8 @@ describe('Survey Mongo Repository', () => {
         date: new Date()
       })
       expect(surveyResult).toBeTruthy()
+      expect(surveyResult.id).toBeTruthy()
+      expect(surveyResult.answer).toBe(survey.answers[0].answer)
     })
   })
 })
