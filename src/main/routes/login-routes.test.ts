@@ -4,7 +4,7 @@ import { Collection } from 'mongodb'
 import { hash } from 'bcrypt'
 import request from 'supertest'
 
-let accountColletction: Collection
+let accountCollection: Collection
 
 describe('Login Routes', () => {
   beforeAll(async () => {
@@ -16,8 +16,8 @@ describe('Login Routes', () => {
   })
 
   beforeEach(async () => {
-    accountColletction = await MongoHelper.getCollection('accounts')
-    await accountColletction.deleteMany({})
+    accountCollection = await MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe('POST /signup', () => {
@@ -37,7 +37,7 @@ describe('Login Routes', () => {
   describe('POST /login', () => {
     test('Should return 200 on login', async () => {
       const password = await hash('123', 12)
-      await accountColletction.insertOne({
+      await accountCollection.insertOne({
         name: 'Lucas Cotrim',
         email: 'lucascotrim3@hotmail.com',
         password: password

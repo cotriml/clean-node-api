@@ -1,4 +1,4 @@
-import { MissginParamError } from '@/presentation/errors'
+import { MissingParamError } from '@/presentation/errors'
 import { Validation } from '@/presentation/protocols'
 
 export class RequiredFieldValidation implements Validation {
@@ -6,7 +6,7 @@ export class RequiredFieldValidation implements Validation {
 
   validate (input: any): Error {
     if (!input[this.fieldName]) {
-      return new MissginParamError(this.fieldName)
+      return new MissingParamError(this.fieldName)
     }
   }
 }

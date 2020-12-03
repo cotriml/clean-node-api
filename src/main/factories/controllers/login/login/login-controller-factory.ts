@@ -5,6 +5,6 @@ import { Controller } from '@/presentation/protocols'
 import { LoginController } from '@/presentation/controllers/login/login/login-controller'
 
 export const makeLoginController = (): Controller => {
-  const controller = new LoginController(makeLoginValidation(), makeDbAuthentication())
+  const controller = new LoginController(makeDbAuthentication(), makeLoginValidation())
   return makeLogControllerDecorator(controller)
 }
