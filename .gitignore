@@ -5,3 +5,4 @@ data
 !src/data
 globalConfig.json
 .vscode
+.DS_Store
