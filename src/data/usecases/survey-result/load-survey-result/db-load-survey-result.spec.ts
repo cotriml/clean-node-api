@@ -38,7 +38,7 @@ describe('DbLoadSurveyResult Usecase', () => {
     accountId = faker.random.uuid()
   })
 
-  test('Should call LoadSurveyResultRepository', async () => {
+  test('Should call LoadSurveyResultRepository with correct values', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
     await sut.load(surveyId, accountId)
     expect(loadSurveyResultRepositorySpy.surveyId).toBe(surveyId)
@@ -71,7 +71,8 @@ describe('DbLoadSurveyResult Usecase', () => {
       date: surveyModel.date,
       answers: surveyModel.answers.map(answer => Object.assign({}, answer, {
         count: 0,
-        percent: 0
+        percent: 0,
+        isCurrentAccountAnswer: false
       }))
     })
   })

@@ -15,10 +15,7 @@ export const surveyResultSchema = {
     },
     date: {
       type: 'string'
-    },
-    isCurrentAccountAnswer: {
-      type: 'boolean'
     }
   },
-  required: ['surveyId', 'question', 'answers', 'date', 'isCurrentAccountAnswer']
+  required: ['surveyId', 'question', 'answers', 'date']
 }
