@@ -1,7 +1,6 @@
-import { makeDbLoadAccountByToken } from '../usecases/account/load-account-by-token/db-load-account-by-token-factory'
-import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware'
+import { makeDbLoadAccountByToken, makeLogControllerDecorator } from '@/main/factories'
 import { Middleware } from '@/presentation/protocols'
-import { makeLogControllerDecorator } from '../decorators/log-controller-decorator-factory'
+import { AuthMiddleware } from '@/presentation/middlewares'
 
 export const makeAuthMiddleware = (role?: string): Middleware => {
   const controller = new AuthMiddleware(makeDbLoadAccountByToken(), role)
