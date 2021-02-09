@@ -1,10 +1,11 @@
-import { mockAccountModel } from '@/tests/domain/mocks'
 import {
   AddAccountRepository,
   LoadAccountByEmailRepository,
   LoadAccountByTokenRepository,
   UpdateAccessTokenRepository
 } from '@/data/protocols'
+
+import faker from 'faker'
 
 export class AddAccountRepositorySpy implements AddAccountRepository {
   result = true
@@ -17,24 +18,28 @@ export class AddAccountRepositorySpy implements AddAccountRepository {
 }
 
 export class LoadAccountByEmailRepositorySpy implements LoadAccountByEmailRepository {
-  accountModel = mockAccountModel()
+  result = {
+    id: faker.random.uuid(),
+    name: faker.name.findName(),
+    password: faker.internet.password()
+  }
   email: string
 
   async loadByEmail (email: string): Promise<LoadAccountByEmailRepository.Result> {
     this.email = email
-    return Promise.resolve(this.accountModel)
+    return Promise.resolve(this.result)
   }
 }
 
 export class LoadAccountByTokenRepositorySpy implements LoadAccountByTokenRepository {
-  accountModel = mockAccountModel()
+  result = { id: faker.random.uuid() }
   token: string
   role: string
 
   async loadByToken (token: string, role?: string): Promise<LoadAccountByTokenRepository.Result> {
     this.token = token
     this.role = role
-    return Promise.resolve(this.accountModel)
+    return Promise.resolve(this.result)
   }
 }
 
