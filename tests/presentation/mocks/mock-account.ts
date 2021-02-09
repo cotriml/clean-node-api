@@ -3,15 +3,14 @@ import {
   LoadAccountByToken,
   Authentication
 } from '@/domain/usecases'
-import { mockAccountModel } from '@/tests/domain/mocks'
 import faker from 'faker'
 
 export class AddAccountSpy implements AddAccount {
-  result = mockAccountModel()
+  isValid = true
   addAccountParams: AddAccount.Params
   async add (account: AddAccount.Params): Promise<AddAccount.Result> {
     this.addAccountParams = account
-    return Promise.resolve(this.result)
+    return Promise.resolve(this.isValid)
   }
 }
 
