@@ -8,17 +8,16 @@ export class AddSurveyRepositorySpy implements AddSurveyRepository {
 
   async add (data: AddSurvey.Params): Promise<void> {
     this.addSurveyParams = data
-    return Promise.resolve()
   }
 }
 
 export class LoadSurveyByIdRepositorySpy implements LoadSurveyByIdRepository {
-  surveyModel = mockSurveyModel()
+  result = mockSurveyModel()
   id: string
 
-  async loadById (id: string): Promise<SurveyModel> {
+  async loadById (id: string): Promise<LoadSurveyByIdRepository.Result> {
     this.id = id
-    return Promise.resolve(this.surveyModel)
+    return this.result
   }
 }
 
