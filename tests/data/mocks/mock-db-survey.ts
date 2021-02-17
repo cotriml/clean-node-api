@@ -43,11 +43,11 @@ export class LoadAnswersBySurveyRepositorySpy implements LoadAnswersBySurveyRepo
 }
 
 export class LoadSurveysRepositorySpy implements LoadSurveysRepository {
-  surveyModels = mockSurveyModels()
+  result = mockSurveyModels()
   accountId: string
 
   async loadAll (accountId: string): Promise<SurveyModel[]> {
     this.accountId = accountId
-    return Promise.resolve(this.surveyModels)
+    return this.result
   }
 }

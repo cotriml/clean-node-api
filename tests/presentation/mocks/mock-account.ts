@@ -6,24 +6,25 @@ import {
 import faker from 'faker'
 
 export class AddAccountSpy implements AddAccount {
-  isValid = true
+  result = true
   addAccountParams: AddAccount.Params
   async add (account: AddAccount.Params): Promise<AddAccount.Result> {
     this.addAccountParams = account
-    return Promise.resolve(this.isValid)
+    return this.result
   }
 }
 
 export class AuthenticationSpy implements Authentication {
-  authenticationParams: Authentication.Params
-  authenticationModel = {
+  result = {
     accessToken: faker.random.uuid(),
     name: faker.name.findName()
   }
 
+  authenticationParams: Authentication.Params
+
   async auth (authenticationParams: Authentication.Params): Promise<Authentication.Result> {
     this.authenticationParams = authenticationParams
-    return Promise.resolve(this.authenticationModel)
+    return this.result
   }
 }
 
