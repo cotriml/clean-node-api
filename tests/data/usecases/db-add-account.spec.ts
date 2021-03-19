@@ -22,7 +22,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('DbAddAccount Usecase', () => {
+describe('DbAddAccount  Usecase', () => {
   test('Should call Hasher with correct password', async () => {
     const { sut, hasherSpy } = makeSut()
     const addAccountParams = mockAddAccountParams()
